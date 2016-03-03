@@ -1,5 +1,5 @@
 {
-    "name": "projectivemotion/SkyscannerPhpClient",
+    "name": "projectivemotion/skyscanner-php-sdk",
     "description": "Skyscanner PHP Client",
     "license": "MIT",
     "keywords": ["skyscanner"],
