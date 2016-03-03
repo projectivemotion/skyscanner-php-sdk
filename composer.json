@@ -1,9 +1,14 @@
 {
-    "name": "Skyscanner/Skyscanner",
-    "description": "Skyscanner PHP SDK",
+    "name": "projectivemotion/SkyscannerPhpClient",
+    "description": "Skyscanner PHP Client",
     "license": "MIT",
     "keywords": ["skyscanner"],
     "authors": [
+        {
+            "name": "Amado Martinez",
+            "email": "amado@projectivemotion.com",
+            "role": "Fork Maintainer"
+        },
         {
             "name": "Ardy Dedase",
             "email": "ardy.dedase@skyscanner.net"
