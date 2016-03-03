@@ -18,6 +18,69 @@ class FlightQuotes implements \Iterator, \Countable
     protected $_Carriers;
     protected $_Currencies;
 
+    //
+    // Basic Data Access Methods
+    //
+
+    public function getOutboundDates()
+    {
+        return $this->_Dates->OutboundDates;
+    }
+
+    public function getInboundDates()
+    {
+        return $this->_Dates->InboundDates;
+    }
+
+    public function getQuotes()
+    {
+        return $this->_Quotes;
+    }
+
+    public function getPlaces()
+    {
+        return $this->_Places;
+    }
+
+    public function getCarriers()
+    {
+        return $this->_Carriers;
+    }
+
+    public function getCurrencies()
+    {
+        return $this->_Currencies;
+    }
+
+    //
+    // Basic Manipulation Methods
+    //
+
+    public function getCarriersArray()
+    {
+        $byKey  =   [];
+        foreach($this->_Carriers as $carrier)
+        {
+            $byKey[$carrier->CarrierId] =   $carrier->Name;
+        }
+        return $byKey;
+    }
+
+    public function getPlacesArray()
+    {
+        $byKey  =   [];
+        foreach($this->_Places as $place)
+        {
+            $byKey[$place->PlaceId] =   $place;
+        }
+        return $byKey;
+    }
+
+
+    //
+    // Auxiliary Methods
+    //
+
     public function getQuoteData($key = '')
     {
         if(empty($key))
@@ -38,12 +101,12 @@ class FlightQuotes implements \Iterator, \Countable
     }
 
     //
-    // Basic Methods for First Level Objects
+    // Basic Methods for First Level Quote properties
     //
 
     public function getMinPrice()
     {
-        return (float)$this->getQuoteData('MinPrice');
+        return $this->getQuoteData('MinPrice');
     }
 
     public function getQuoteId()
@@ -125,7 +188,7 @@ class FlightQuotes implements \Iterator, \Countable
     }
 
     //
-    // Instantiation Functions
+    // Initialization Functions
     //
 
     /**
@@ -160,15 +223,15 @@ class FlightQuotes implements \Iterator, \Countable
         return $this->valid() ? $this : NULL;
     }
 
+
+    //
+    // Interface Functions
+    //
+
     public function count()
     {
         return count($this->_Quotes);
     }
-
-
-    //
-    // Iterator Functions
-    //
 
     public function current()
     {
