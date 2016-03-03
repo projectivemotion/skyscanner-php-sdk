@@ -32,11 +32,11 @@ Installation
 * Composer:
     "repositories": [
     {
-      "url": "https://github.com/projectivemotion/skyscanner-php-sdk.git",
-      "type": "git"
+      "url": "https://github.com/projectivemotion/skyscanner-php-sdk",
+      "type": "vcs"
     }
     ],
     "require": {
-        "projectivemotion/skyscanner-php-sdk": "dev-projectivemotion"
+        "Skyscanner/Skyscanner": "dev-projectivemotion"
     }
 * composer update
