@@ -8,7 +8,7 @@
 namespace Skyscanner\Response;
 
 
-class FlightQuotes implements \Iterator
+class FlightQuotes implements \Iterator, \Countable
 {
     protected $position =   0;
 
@@ -23,7 +23,7 @@ class FlightQuotes implements \Iterator
         if(empty($key))
             return $this->_Quotes[$this->position];
         
-        return $this->getQuoteData()->$key;
+        return isset($this->getQuoteData()->$key) ? $this->getQuoteData()->$key : NULL;
     }
 
     public function getCarrierByID($CarrierId)
@@ -36,10 +36,14 @@ class FlightQuotes implements \Iterator
 
         return null;
     }
-    
+
+    //
+    // Basic Methods for First Level Objects
+    //
+
     public function getMinPrice()
     {
-        return $this->getQuoteData('MinPrice');
+        return (float)$this->getQuoteData('MinPrice');
     }
 
     public function getQuoteId()
@@ -51,35 +55,91 @@ class FlightQuotes implements \Iterator
     {
         return $this->getQuoteData('QuoteDateTime');
     }
+    
+    public function getIsDirect()
+    {
+        return $this->getQuoteData('Direct') == true; 
+    }
+
+    public function getHasOutbound()
+    {
+        return isset($this->getQuoteData()->OutboundLeg);
+    }
+
+    public function getHasInbound()
+    {
+        return isset($this->getQuoteData()->InboundLeg);
+    }
+
+    //
+    // Second level property methods.
+    // These methods require that you first check if getHasInbound() or getHasOutbound() is true.
+    //
+
+    public function getOutboundDepartureDate()
+    {
+        return $this->getOutboundLegData('DepartureDate');
+    }
+
+    public function getOutboundCarrierName($carrier_index = 0)
+    {
+        // If there is no outbound data, carrier_id will be null
+        $carrier_id    =   $this->getOutboundLegData('CarrierIds')[$carrier_index];
+        return $carrier_id ? $this->getCarrierByID($carrier_id)->Name : NULL;
+    }
+
+    public function getInboundDepartureDate()
+    {
+        return $this->getInboundLegData('DepartureDate');
+    }
+
+    public function getInboundCarrierName($carrier_index = 0)
+    {
+        // If there is no outbound data, carrier_id will be null
+        $carrier_id    =   $this->getInboundLegData('CarrierIds')[$carrier_index];
+        return $carrier_id ? $this->getCarrierByID($carrier_id)->Name : NULL;
+    }
 
     public function getOutboundLegData($key = '')
     {
         if(empty($key))
             return $this->getQuoteData('OutboundLeg');
 
-        return $this->getOutboundLegData()->$key;
+        $outboundleg    =   $this->getOutboundLegData();
+        if(!$outboundleg)
+            return NULL;
+
+        return isset($outboundleg->$key) ? $outboundleg->$key : NULL;
     }
 
-    public function getOutboundCarrierName($carrier_index = 0)
+    public function getInboundLegData($key = '')
     {
-        $carrier_id    =   $this->getOutboundLegData('CarrierIds')[$carrier_index];
-        return $this->getCarrierByID($carrier_id)->Name;
-    }
+        if(empty($key))
+            return $this->getQuoteData('InboundLeg');
 
-    public function getOutboundDepartureDate()
-    {
-        return $this->getOutboundLegData('DepartureDate');
-    }
-    
-    public function isDirect()
-    {
-        return $this->getQuoteData('Direct') == true; 
+        $inboundleg    =   $this->getInboundLegData();
+        if(!$inboundleg)
+            return NULL;
+
+        return isset($inboundleg->$key) ? $inboundleg->$key : NULL;
     }
 
     //
     // Instantiation Functions
     //
 
+    /**
+     * 1. $quotes = FlightQuotes::create($response)
+     * 2. foreach($quotes as $quote){
+     * 3.   $quote->getMinPrice();
+     * 4.   $quote->getHasOutbound();
+     * 5.   $quote->getHasInbound();
+     * 6. }
+     * 
+     *
+     * @param $response_obj
+     * @return static[]
+     */
     public static function create($response_obj)
     {
         return new static($response_obj);
@@ -94,13 +154,25 @@ class FlightQuotes implements \Iterator
         $this->_Currencies  =   $response_obj->parsed->Currencies;
     }
 
+    public function getQuote($position)
+    {
+        $this->position = $position;
+        return $this->valid() ? $this : NULL;
+    }
+
+    public function count()
+    {
+        return count($this->_Quotes);
+    }
+
+
     //
     // Iterator Functions
     //
 
     public function current()
     {
-        $this->position = $this->position%count($this->_Quotes);
+        $this->position = $this->position%$this->count();
         return $this;
     }
 
