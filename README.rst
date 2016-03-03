@@ -2,26 +2,22 @@
 Skyscanner PHP SDK
 ===============================
 
-.. image:: https://travis-ci.org/projectivemotion/skyscanner-php-sdk.svg?branch=master
+.. image:: https://travis-ci.org/projectivemotion/skyscanner-php-sdk.svg?branch=projectivemotion
     :target: https://travis-ci.org/projectivemotion/skyscanner-php-sdk
 
-.. image:: https://img.shields.io/pypi/v/skyscanner.svg
-    :target: https://pypi.python.org/pypi/skyscanner
 
-.. image:: https://readthedocs.org/projects/skyscanner-php/badge/?version=latest
-        :target: https://readthedocs.org/projects/skyscanner-php/?badge=latest
-        :alt: Documentation Status
+This is a temporary fork of ardydedase/skyscanner-php-sdk meant to bring the package back to life.
+In order to use this repository I have had to modify the composer.json file to use in my own projects.
+Feel free to use this code, the original project license remains as Apache 2.0.
 
-.. image:: https://coveralls.io/repos/Skyscanner/skyscanner-php-sdk/badge.svg?branch=master&service=github
-        :target: https://coveralls.io/github/Skyscanner/skyscanner-php-sdk?branch=master
+If the original project remains unresponsive, I may decide to create a brand new fork of skyscanner-php-sdk at some point in the future,
+
+Use at your own risk!
 
 
 Skyscanner PHP SDK for Skyscanner's API
 
 * Free software: Apache 2.0 license
-* SDK Documentation: https://skyscanner-php.readthedocs.org.
-* API Documentation: http://business.skyscanner.net/portal/en-GB/Documentation/ApiOverview
-
 
 Features
 --------
@@ -33,10 +29,14 @@ Features
 Installation
 ------------
 
-git clone ..
-composer update
-
-Usage
------
-
-https://skyscanner-php.readthedocs.org/en/latest/usage.html  
+* Composer:
+    "repositories": [
+    {
+      "url": "https://github.com/projectivemotion/skyscanner-php-sdk.git",
+      "type": "git"
+    }
+    ],
+    "require": {
+        "projectivemotion/skyscanner-php-sdk": "dev-projectivemotion"
+    }
+* composer update
