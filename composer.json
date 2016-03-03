@@ -2,6 +2,7 @@
     "name": "projectivemotion/skyscanner-php-sdk",
     "description": "Skyscanner PHP Client",
     "license": "Apache 2.0",
+    "minimum-stability": "dev",
     "keywords": ["skyscanner"],
     "authors": [
         {
