@@ -9,6 +9,6 @@ php:
 before_script:
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
-  - sleep 30
+  - sleep 60
 
 script: vendor/phpunit/phpunit/phpunit
